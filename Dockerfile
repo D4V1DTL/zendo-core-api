@@ -35,6 +35,6 @@ RUN mkdir -p storage/framework/{sessions,views,cache,testing} storage/logs boots
     && chmod +x /app/start.sh
 
 # Expose port (Railway injects $PORT)
-EXPOSE 8000
+EXPOSE $PORT
 
 CMD ["/app/start.sh"]
