@@ -1,15 +1,17 @@
 FROM dunglas/frankenphp:php8.3-bookworm
 
-# Install system dependencies
+# Install system dependencies + PHP extensions required by Filament
 RUN apt-get update && apt-get install -y \
     git \
     curl \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    libicu-dev \
+    libzip-dev \
     zip \
     unzip \
-    && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd opcache \
+    && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd opcache intl zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
