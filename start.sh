@@ -23,5 +23,5 @@ php artisan optimize
 echo "==> Caching Filament components..."
 php artisan filament:cache-components
 
-echo "==> Starting FrankenPHP on port ${PORT:-8000}..."
-exec frankenphp php-server --root /app/public --listen :${PORT:-8000}
+echo "==> Starting FrankenPHP on port $PORT..."
+exec frankenphp php-server --root /app/public --listen :$PORT
