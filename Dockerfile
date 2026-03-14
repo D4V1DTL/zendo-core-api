@@ -16,17 +16,25 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git unzip \
     && rm -rf /var/lib/apt/lists/*
 
-# copiar TODO el proyecto primero
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+WORKDIR /app
+
+# Copy composer files first for layer caching
+COPY composer.json composer.lock ./
+
+RUN composer install --optimize-autoloader --no-scripts --no-interaction --no-dev
+
+# Copy the rest of the app
 COPY . .
 
-RUN composer install --no-dev --optimize-autoloader --prefer-dist
+# Setup storage directories and permissions
+RUN mkdir -p storage/framework/{sessions,views,cache,testing} storage/logs bootstrap/cache \
+    && chmod -R 777 storage bootstrap/cache \
+    && chmod +x /app/start.sh
 
-RUN mkdir -p storage/framework/{sessions,views,cache} storage/logs \
-    && chmod -R 777 storage bootstrap/cache
-
-COPY start.sh /app/start.sh
-RUN chmod +x /app/start.sh
-
+# Expose port (Railway injects $PORT)
 EXPOSE 8000
 
 CMD ["/app/start.sh"]
