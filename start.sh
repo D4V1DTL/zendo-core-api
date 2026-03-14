@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 
 echo "==> Running migrations..."
@@ -23,6 +23,5 @@ php artisan optimize
 echo "==> Caching Filament components..."
 php artisan filament:cache-components
 
-echo "==> Starting FrankenPHP server on port ${PORT:-8000}..."
-cd /app/public
-exec frankenphp php-server --listen :${PORT:-8000}
+echo "==> Starting FrankenPHP on port ${PORT:-8000}..."
+exec frankenphp php-server --root /app/public --listen :${PORT:-8000}
