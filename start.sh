@@ -23,9 +23,5 @@ php artisan optimize
 echo "==> Caching Filament components..."
 php artisan filament:cache-components
 
-echo "==> Fixing storage permissions..."
-chown -R www-data:www-data /app/storage /app/bootstrap/cache
-chmod -R 775 /app/storage /app/bootstrap/cache
-
 echo "==> Starting FrankenPHP on port ${PORT:-8000}..."
 exec frankenphp php-server --root /app/public --listen :${PORT:-8000}
